@@ -36,9 +36,15 @@ export default class App extends React.Component {
 							)}
 						/>
 						<Route
-							path="/bestgenres"
+							path="/planning"
 							render={() => (
-								<BestGenres />
+								<TripPlanning />
+							)}
+						/>
+						<Route
+							path="/wildlife"
+							render={() => (
+								<Wildlife />
 							)}
 						/>
 					</Switch>
