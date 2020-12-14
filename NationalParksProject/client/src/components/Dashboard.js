@@ -1,9 +1,13 @@
 import React from 'react';
+
 import '../style/Dashboard.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PageNavbar from './PageNavbar';
-import GenreButton from './GenreButton';
+
 import DashboardMovieRow from './DashboardMovieRow';
+import GenreButton from './GenreButton';
+import PageNavbar from './PageNavbar';
+
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
 export default class Dashboard extends React.Component {
   constructor(props) {
@@ -72,32 +76,52 @@ export default class Dashboard extends React.Component {
 
   render() {    
     return (
+      // <div className="Dashboard">
+
+      //   <PageNavbar active="dashboard" />
+
+      //   <br></br>
+      //   <div className="container movies-container">
+      //     <div className="jumbotron">
+      //       <div className="h5">Top Movies</div>
+      //       <div className="genres-container">
+      //         {this.state.genres}
+      //       </div>
+      //     </div>
+
+      //     <br></br>
+      //     <div className="jumbotron">
+      //       <div className="movies-container">
+      //         <div className="movies-header">
+      //           <div className="header-lg"><strong>Title</strong></div>
+      //           <div className="header"><strong>Rating</strong></div>
+      //           <div className="header"><strong>Vote Count</strong></div>
+      //         </div>
+      //         <div className="results-container" id="results">
+      //           {this.state.movies}
+      //         </div>
+      //       </div>
+      //     </div>
+      //   </div>
+      // </div>
+
       <div className="Dashboard">
-
         <PageNavbar active="dashboard" />
-
         <br></br>
-        <div className="container movies-container">
-          <div className="jumbotron">
-            <div className="h5">Top Movies</div>
-            <div className="genres-container">
-              {this.state.genres}
-            </div>
-          </div>
+        <div className="map-container">
+          {/* map loaded with leaflet https://react-leaflet.js.org/docs/example-popup-marker */}
 
-          <br></br>
-          <div className="jumbotron">
-            <div className="movies-container">
-              <div className="movies-header">
-                <div className="header-lg"><strong>Title</strong></div>
-                <div className="header"><strong>Rating</strong></div>
-                <div className="header"><strong>Vote Count</strong></div>
-              </div>
-              <div className="results-container" id="results">
-                {this.state.movies}
-              </div>
-            </div>
-          </div>
+          <MapContainer className="map-container" center={[39.8, -98.6]} zoom={5} scrollWheelZoom={false}>
+            <TileLayer
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <Marker position={[37.3, -113.05]}>
+              <Popup>
+                Zion National Park
+              </Popup>
+            </Marker>
+          </MapContainer>
         </div>
       </div>
     );
