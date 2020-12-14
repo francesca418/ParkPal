@@ -1,7 +1,6 @@
 import React from 'react';
 import PageNavbar from './PageNavbar';
 import BestGenreRow from './BestGenreRow';
-import '../style/TripPlanning.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class TripPlanning extends React.Component {
