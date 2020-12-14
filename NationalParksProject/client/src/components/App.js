@@ -6,7 +6,8 @@ import {
 } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Recommendations from './Recommendations';
-import BestGenres from './BestGenres';
+import TripPlanning from './TripPlanning';
+import Wildlife from './Wildlife';
 
 export default class App extends React.Component {
 
@@ -36,7 +37,7 @@ export default class App extends React.Component {
 							)}
 						/>
 						<Route
-							path="/planning"
+							path="/tripplanning"
 							render={() => (
 								<TripPlanning />
 							)}
