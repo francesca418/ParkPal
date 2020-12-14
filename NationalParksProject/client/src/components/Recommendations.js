@@ -10,14 +10,21 @@ export default class Recommendations extends React.Component {
 
 		this.state = {
 			cityName: "",
+			wildlifeLifeName: "",
 			latLongRange: 0,
 			recParks: [],
 			recTrails: []
 		}
 
+		// handlers for new inputs
 		this.handleCityChange = this.handleCityChange.bind(this);
+		this.handleWildlifeChange = this.handleWildlifeChange.bind(this);
 		this.handleLatLongChange = this.handleLatLongChange.bind(this);
+
+		// functions that make HTTP requests
 		this.submitCity = this.submitCity.bind(this);
+		this.submitCityForTrails = this.submitCityForTrails.bind(this);
+		this.submitWildlife = this.submitWildlife.bind(this);
 	}
 
 	handleCityChange(e) {
@@ -29,6 +36,12 @@ export default class Recommendations extends React.Component {
 	handleLatLongChange(e) {
 		this.setState({
 			latLongRange: e.target.value
+		});
+	}
+
+	handleWildlifeChange(e) {
+		this.setState({
+			wildlifeName: e.target.value
 		});
 	}
 
@@ -56,9 +69,9 @@ export default class Recommendations extends React.Component {
 
 	// }
 
-	// Name of city submitted is contained in `this.state.cityName`.
+	/* FUNCTIONS TO MAKE HTTP REQUESTS TO THE SERVER */
+
 	submitCity() {
-		// Send an HTTP request to the server. 
 
 	}
 
@@ -112,7 +125,7 @@ export default class Recommendations extends React.Component {
 						<div className="h6">Or</div>
 
 						<div className="input-container">
-			    			<input type='text' placeholder="Enter wildlife" value={this.state.wildlife} onChange={this.handleWildlifechange} id="wildlifeName" className="wildlife-input"/>
+			    			<input type='text' placeholder="Enter wildlife" value={this.state.wildlife} onChange={this.handleWildlifeChange} id="wildlifeName" className="wildlife-input"/>
 							<label>Status:
 							<input list="statuses"/></label>
 							<datalist id="statuses">
