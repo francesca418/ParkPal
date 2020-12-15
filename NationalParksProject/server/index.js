@@ -13,49 +13,24 @@ app.use(bodyParser.urlencoded({ extended: false }));
 /* ------------------- Route handler registration ----------------- */
 /* ---------------------------------------------------------------- */
 
-
-
-
 /* ---- (Dashboard) ---- */
-// The route localhost:8081/genres is registered to the function
-// routes.getAllGenres, specified in routes.js.
-app.get('/genres', routes.getAllGenres);
+/* ---- All: states retrieval ---- */
+app.get('/states', routes.getAllStateIDs);
 
+/* ---- All: parks retrieval ---- */
+app.get('/parks', routes.getAllParks);
 
+/* ---- Parks: City, Range Recommendation ---- */
+app.get('/parks/:city&:state&:range', routes.getParksInRange);
 
+/* ---- Parks: Category, Status Recommendation ---- */
+app.get('/parks/:category&:status', routes.getParksWithWildlife);
 
+/* ---- Trails: City, Range Recommendation ---- */
+app.get('/trails/:city&:state&:range', routes.getTrailsInRange);
 
-
-/* ---- Q1b (Dashboard) ---- */
-app.get('/genres/:genre', routes.getTopInGenre); // Hint: Replace () => {} with the appropriate route handler.
-
-
-
-
-
-/* ---- Q2 (Recommendations) ---- */
-app.get('/recommendations/:movie', routes.getRecs);
-
-
-
-
-
-/* ---- (Best Genre) ---- */
-app.get('/decades', routes.getDecades);
-
-
-
-
-
-
-/* ---- Q3b (Best Genre) ---- */
-app.get('/decades/:decade', routes.bestGenresPerDecade);
-
-
-
-
-
-
+/* ---- Trails: Feature, Activity Recommendation ---- */
+app.get('/trails/:feature&:activity', routes.getTrailsWithInfo);
 
 app.listen(8081, () => {
 	console.log(`Server listening on PORT 8081`);
