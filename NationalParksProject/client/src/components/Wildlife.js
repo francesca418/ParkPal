@@ -9,13 +9,15 @@ export default class BestGenre extends React.Component {
 		super(props);
 
 		this.state = {
-			selectedDecade: "",
-			decades: [],
-			genres: []
+			commonname: "",
+			recParks: [],
 		};
 
-		// this.submitDecade = this.submitDecade.bind(this);
-		// this.handleChange = this.handleChange.bind(this);
+		this.handleCommonNameChange = this.handleCommonNameChange.bind(this);
+	}
+
+	handleCommonNameChange() {
+
 	}
 
 	/* ---- Q3a (Best Genres) ---- */
@@ -70,6 +72,10 @@ export default class BestGenre extends React.Component {
 	// 		.catch(err => console.log(err)); // Print the error if there is one.
 	// }
 
+	submitCommonName() {
+		
+	}
+
 	render() {
 
 		return (
@@ -109,7 +115,13 @@ export default class BestGenre extends React.Component {
 				
 				<div className="container wildlife-container">
 					<div className="jumbotron">
+						<div className="h4">Where to find wildlife</div>
+						<br></br>
 						
+						<div className="input-container">
+			    			<input type='text' placeholder="Enter common name" value={this.state.commonname} onChange={this.handleCommonNameChange} id="commonName" className="commonName-input"/>
+ 			    			<button id="submitCommonNameBtn" className="submitCommonName-btn" onClick={this.submitCommonName}>Submit</button>
+			    		</div>
 					</div>
 				</div>
 			</div>
