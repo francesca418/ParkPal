@@ -5,7 +5,8 @@ import {
 	Switch
 } from 'react-router-dom';
 import Dashboard from './Dashboard';
-import Recommendations from './Recommendations';
+import ParkRecs from './ParkRecs';
+import TrailRecs from './TrailRecs';
 import TripPlanning from './TripPlanning';
 import Wildlife from './Wildlife';
 
@@ -31,15 +32,15 @@ export default class App extends React.Component {
 							)}
 						/>
 						<Route
-							path="/recommendations"
+							path="/parks"
 							render={() => (
-								<Recommendations />
+								<ParkRecs />
 							)}
 						/>
 						<Route
-							path="/tripplanning"
+							path="/trails"
 							render={() => (
-								<TripPlanning />
+								<TrailRecs />
 							)}
 						/>
 						<Route

@@ -1,30 +1,30 @@
 import React from 'react';
 import PageNavbar from './PageNavbar';
-import RecommendationsRowPark from './RecommendationsRowPark';
+import TrailRow from './TrailRow';
 import '../style/Recommendations.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export default class Recommendations extends React.Component {
+export default class TrailRecs extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
 			cityName: "",
-			wildlifeLifeName: "",
-			latLongRange: 0,
-			recParks: [],
+            latLongRange: 0,
+            feature: "",
+            activity: "",
 			recTrails: []
 		}
 
 		// handlers for new inputs
 		this.handleCityChange = this.handleCityChange.bind(this);
-		this.handleWildlifeChange = this.handleWildlifeChange.bind(this);
-		this.handleLatLongChange = this.handleLatLongChange.bind(this);
+        this.handleLatLongChange = this.handleLatLongChange.bind(this);
+        this.handleFeatureChange = this.handleFeatureChange.bind(this);
+        this.handleActivityChange = this.handleActivityChange.bind(this);
 
 		// functions that make HTTP requests
-		this.submitCity = this.submitCity.bind(this);
-		this.submitCityForTrails = this.submitCityForTrails.bind(this);
-		this.submitWildlife = this.submitWildlife.bind(this);
+        this.submitCityForTrails = this.submitCityForTrails.bind(this);
+        this.submitTrailInfo = this.submitCityForTrails.bind(this);
 	}
 
 	handleCityChange(e) {
@@ -37,13 +37,19 @@ export default class Recommendations extends React.Component {
 		this.setState({
 			latLongRange: e.target.value
 		});
-	}
+    }
+    
+    handleFeatureChange(e) {
+        this.setState({
+            feature: e.target.value
+        });
+    }
 
-	handleWildlifeChange(e) {
-		this.setState({
-			wildlifeName: e.target.value
-		});
-	}
+    handleActivityChange(e) {
+        this.setState({
+            activity: e.target.value
+        })
+    }
 
 	/* ---- Q2 (Recommendations) ---- */
 	// // Hint: Name of movie submitted is contained in `this.state.movieName`.
@@ -71,17 +77,13 @@ export default class Recommendations extends React.Component {
 
 	/* FUNCTIONS TO MAKE HTTP REQUESTS TO THE SERVER */
 
-	submitCity() {
-
-	}
-
 	submitCityForTrails() {
 
-	}
+    }
+    
+    submitTrailInfo() {
 
-	submitWildlife() {
-
-	}
+    }
 
 	
 	render() {
@@ -111,39 +113,36 @@ export default class Recommendations extends React.Component {
 			    			{this.state.recMovies}
 			    		</div> */}
 
-						<div className="h4">Recommendations</div>
-						
-						<br></br>
-						<div className="h5">For parks</div>
-						
+						<div className="h4">Trail Recommendations</div>
+                        <br></br>
+
 						<div className="input-container">
 			    			<input type='text' placeholder="Enter city" value={this.state.city} onChange={this.handleCityChange} id="cityName" className="city-input"/>
 							<input type='number' step="0.1" min="0" placeholder="Enter lat/long range" value={this.state.range} onChange={this.handleLatLongChange} id="latLongRange" className="range-input" />
- 			    			<button id="submitCityBtn" className="submit-btn" onClick={this.submitCity}>Submit</button>
+ 			    			<button id="submitCityForTrails" className="submit-btn" onClick={this.submitCityForTrails}>Submit</button>
 			    		</div>
 
 						<div className="h6">Or</div>
 
-						<div className="input-container">
-			    			<input type='text' placeholder="Enter wildlife" value={this.state.wildlife} onChange={this.handleWildlifeChange} id="wildlifeName" className="wildlife-input"/>
-							<label>Status:
-							<input list="statuses"/></label>
-							<datalist id="statuses">
-								<option value="Common"></option>
-								<option value="In recovery"></option>
-								<option value="Endangered"></option>
-								<option value="Species of concern"></option>
-							</datalist>
-							<button id="submitWildlifeBtn" className="wildlife-btn" onClick={this.submitWildlife}>Submit</button>
-			    		</div>
-						
-						<br></br>
-						<div className= "h5">For trails</div>
+                        <div className="input-container">
+                            <input list="features" placeholder="--Select feature--" value={this.state.feature} onChange={this.handleFeatureChange} id="feature" className="feature-input"/>
+                                <datalist id="features">
+                                    <option value="beach"></option>
+                                    <option value="forest"></option>
+                                    <option value="river"></option>
+                                    <option value="waterfall"></option>
+                                    <option value="views"></option>
+                                </datalist>
 
-						<div className="input-container">
-			    			<input type='text' placeholder="Enter city" value={this.state.city} onChange={this.handleCityChange} id="cityName" className="city-input"/>
-							<input type='number' step="0.1" min="0" placeholder="Enter lat/long range" value={this.state.range} onChange={this.handleLatLongChange} id="latLongRange" className="range-input" />
- 			    			<button id="submitCityBtn" className="submit-btn" onClick={this.submitCityForTrails}>Submit</button>
+                            <input list="activities" placeholder="--Select activity--" value={this.state.activity} onChange={this.handleActivityChange} id="activity" className="activity-input"/>
+                                <datalist id="activities">
+                                    <option value="birding"></option>
+                                    <option value="camping"></option>
+                                    <option value="hiking"></option>
+                                    <option value="nature-trips"></option>
+                                    <option value="trail-running"></option>
+                                </datalist>
+                            <button id="submitTrailInfo" className="submit-btn" onClick={this.submitTrailInfo}>Submit</button>
 			    		</div>
 			    	</div>
 			    </div>
