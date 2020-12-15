@@ -18,7 +18,6 @@ export default class Dashboard extends React.Component {
       movies: []
     }
 
-    this.showMovies = this.showMovies.bind(this);
   }
 
   // React function that is called when the page load.
