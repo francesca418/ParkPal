@@ -2,3 +2,9 @@
     height: 750px;
     width: 1250px;
 }
+
+.map-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

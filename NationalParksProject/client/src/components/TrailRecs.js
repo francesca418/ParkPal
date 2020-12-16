@@ -299,6 +299,7 @@ export default class TrailRecs extends React.Component {
     return (
       <div className="Recommendations">
         <PageNavbar active="recommendations" />
+        <br></br>
 
         <div className="container recommendations-container">
           <div className="jumbotron park">
@@ -417,8 +418,8 @@ export default class TrailRecs extends React.Component {
           </div>
 
           <div className="jumbotron">
-            <div className="trails-container">
-              <div className="trail">
+            <div className="header-container">
+              <div className="headers">
                 <div className="header">
                   <strong>Trail</strong>
                 </div>
@@ -428,8 +429,17 @@ export default class TrailRecs extends React.Component {
                 <div className="header">
                   <strong>Popularity</strong>
                 </div>
+                <div className="header">
+                  <strong>Length</strong>
+                </div>
+                <div className="header">
+                  <strong>Elevation</strong>
+                </div>
+                <div className="header">
+                  <strong>Score</strong>
+                </div>
               </div>
-              <div className="trails-container" id="results">
+              <div className="results-container" id="results">
                 {this.state.recTrails}
               </div>
             </div>

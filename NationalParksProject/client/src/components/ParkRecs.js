@@ -58,14 +58,11 @@ export default class ParkRecs extends React.Component {
       .then((res) => res.json()) // Convert the response data to a JSON.
       .then((USStatesList) => {
         if (!USStatesList) return;
-        // Map each Obj to an HTML element
 
         let USStatesDivs = USStatesList.map((USState, i) => (
-          //<option id={decadeObj.decade} value={decadeObj.decade} />
           <option value={USState.STATE_ID} />
         ));
 
-        // Set the state of the genres list to the value returned by the HTTP response from the server.
         this.setState({
           USStateIDs: USStatesDivs,
         });
@@ -81,11 +78,9 @@ export default class ParkRecs extends React.Component {
         // Map each Obj to an HTML element
 
         let categoriesDivs = categoriesList.map((category, i) => (
-          //<option id={decadeObj.decade} value={decadeObj.decade} />
           <option value={category.CATEGORY} />
         ));
 
-        // Set the state of the genres list to the value returned by the HTTP response from the server.
         this.setState({
           categories: categoriesDivs,
         });
@@ -168,7 +163,7 @@ export default class ParkRecs extends React.Component {
     return (
       <div className="Recommendations">
         <PageNavbar active="recommendations" />
-
+        <br></br>
         <div className="container recommendations-container">
           <div className="jumbotron park">
             <div className="h4">Park Recommendations</div>
@@ -252,8 +247,8 @@ export default class ParkRecs extends React.Component {
           </div>
 
           <div className="jumbotron">
-            <div className="parks-container">
-              <div className="park">
+            <div className="header-container">
+              <div className="headers">
                 <div className="header">
                   <strong>Code</strong>
                 </div>
@@ -273,7 +268,7 @@ export default class ParkRecs extends React.Component {
                   <strong>Longitude</strong>
                 </div>
               </div>
-              <div className="parks-container" id="results">
+              <div className="results-container" id="results">
                 {this.state.recParks}
               </div>
             </div>

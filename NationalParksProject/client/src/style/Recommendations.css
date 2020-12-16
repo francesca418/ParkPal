@@ -1,16 +1,21 @@
 .header-container, .results-container {
   display: flex;
   flex-flow: column wrap;
-  /* margin-top: 10px; */
 }
 
-.header-container .headers, .results-container .movieResults {
+.header-container .headers, 
+.results-container .parkResults, 
+.results-container .trailResults, 
+.results-container .wildlifeResults {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   align-items: center;
-  height: 40px;
+  height: 100px;
 }
 
-.movieResults .title, .movieResults .id, .movieResults .rating, .movieResults .votes, .headers .header {
-  flex: 1 0 25%;
+.headers .header, 
+.park_code, .park_name, .state, .acres, .latitude, .longitude,
+.trail_name, .popularity, .length, .elevation, .score,
+.scientific_name, .common_names  {
+  flex: 1 0 16%;
 }

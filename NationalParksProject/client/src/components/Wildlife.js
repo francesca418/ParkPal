@@ -2,7 +2,6 @@ import React from 'react';
 import PageNavbar from './PageNavbar';
 import WildlifeRow from './WildlifeRow';
 import WildlifeTree from './WildlifeTree';
-import '../style/BestGenres.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class Wildlife extends React.Component {
@@ -126,6 +125,7 @@ export default class Wildlife extends React.Component {
     return (
       <div className="wildlife">
         <PageNavbar active="wildlife" />
+        <br></br>
 
         <div className="container wildlife-container">
           <div className="jumbotron">
@@ -151,6 +151,7 @@ export default class Wildlife extends React.Component {
               </button>
             </div>
 
+            <br></br>
             <div className="h4">Phylogenetic Tree</div>
             <br></br>
 
@@ -201,19 +202,19 @@ export default class Wildlife extends React.Component {
           </div>
 
           <div className="jumbotron">
-            <div className="parks-container">
-              <div className="park">
+            <div className="header-container">
+              <div className="headers">
                 <div className="header">
                   <strong>Code</strong>
                 </div>
                 <div className="header">
-                  <strong>Name</strong>
+                  <strong>Scientific name</strong>
                 </div>
                 <div className="header">
-                  <strong>State</strong>
+                  <strong>Common name(s)</strong>
                 </div>
               </div>
-              <div className="wildlife-container" id="results">
+              <div className="results-container" id="results">
                 {this.state.wildlives}
               </div>
             </div>

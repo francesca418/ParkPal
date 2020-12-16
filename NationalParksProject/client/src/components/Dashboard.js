@@ -48,7 +48,7 @@ export default class Dashboard extends React.Component {
       <div className="Dashboard">
         <PageNavbar active="dashboard" />
         <br></br>
-        <div className="map-container">
+        <div className="map-wrapper">
           {/* map loaded with leaflet https://react-leaflet.js.org/docs/example-popup-marker */}
 
           <MapContainer className="map-container" center={[39.8, -98.6]} zoom={5} scrollWheelZoom={false}>
