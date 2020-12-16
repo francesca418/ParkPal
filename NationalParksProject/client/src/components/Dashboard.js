@@ -2,7 +2,7 @@ import React from 'react';
 
 import '../style/Dashboard.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import Jumbotron from 'react-bootstrap/Jumbotron';
 import PageNavbar from './PageNavbar';
 
 import { LatLng } from 'leaflet';
@@ -37,7 +37,8 @@ export default class Dashboard extends React.Component {
       .catch((err) => console.log(err)); // Print the error if there is one.
   }
 
-  render() {    
+  render() {
+    
     const markers = this.state.parkLatLng.map((v, i) => 
       <Marker key={i} position={v}>
         <Popup>{this.state.parkNames[i]} <br></br> Acres: {this.state.parkAcres[i]}</Popup>
@@ -47,11 +48,24 @@ export default class Dashboard extends React.Component {
     return (
       <div className="Dashboard">
         <PageNavbar active="dashboard" />
-        <br></br>
+
+        <Jumbotron>
+          <h1 className="title">ParkPal</h1>
+          <p>
+            Welcome to your national park companion.
+          </p>
+        </Jumbotron>
+
         <div className="map-wrapper">
+          <br></br>
           {/* map loaded with leaflet https://react-leaflet.js.org/docs/example-popup-marker */}
 
-          <MapContainer className="map-container" center={[39.8, -98.6]} zoom={5} scrollWheelZoom={false}>
+          <MapContainer
+            className="map-container"
+            center={[39.8, -98.6]}
+            zoom={5}
+            scrollWheelZoom={false}
+          >
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

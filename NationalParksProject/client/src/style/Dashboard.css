@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Barrio&display=swap');
+
+.title {
+    font-family: 'Barrio', sans-serif;
+    size: 100;
+}
+
 .map-container {
     height: 750px;
     width: 1250px;
