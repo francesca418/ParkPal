@@ -12,18 +12,19 @@ export default class ParkRecs extends React.Component {
       cityName: "",
       USState: "",
       latLongRange: 0,
-      wildlife: "",
+      category: "",
       status: "",
       recParks: [],
       USStateIDs: [],
+      categories: [],
     };
 
     // handlers for new inputs
     this.handleCityChange = this.handleCityChange.bind(this);
     this.handleUSStateChange = this.handleUSStateChange.bind(this);
     this.handleLatLongChange = this.handleLatLongChange.bind(this);
-    this.handleWildlifeChange = this.handleWildlifeChange.bind(this);
     this.handleStatusChange = this.handleStatusChange.bind(this);
+    this.handleCategoryChange = this.handleCategoryChange.bind(this);
 
     // functions that make HTTP requests
     this.submitCity = this.submitCity.bind(this);
@@ -36,23 +37,12 @@ export default class ParkRecs extends React.Component {
     });
   }
 
-  // handleUSStateChange(e) {
-  //   this.setState({
-  //     USState: e.target.value,
-  //   });
-  // }
-
   handleLatLongChange(e) {
     this.setState({
       latLongRange: e.target.value,
     });
   }
 
-  handleWildlifeChange(e) {
-    this.setState({
-      wildlife: e.target.value,
-    });
-  }
 
   handleStatusChange(e) {
     this.setState({
@@ -81,6 +71,27 @@ export default class ParkRecs extends React.Component {
         });
       })
       .catch((err) => console.log(err)); // Print the error if there is one.
+    
+    fetch("http://localhost:8081/categories", {
+      method: "GET", // The type of HTTP request.
+    })
+      .then((res) => res.json()) // Convert the response data to a JSON.
+      .then((categoriesList) => {
+        if (!categoriesList) return;
+        // Map each Obj to an HTML element
+
+        let categoriesDivs = categoriesList.map((category, i) => (
+          //<option id={decadeObj.decade} value={decadeObj.decade} />
+          <option value={category.CATEGORY} />
+        ));
+
+        // Set the state of the genres list to the value returned by the HTTP response from the server.
+        this.setState({
+          categories: categoriesDivs,
+        });
+      })
+      .catch((err) => console.log(err)); // Print the error if there is one.
+
   }
 
   handleUSStateChange(e) {
@@ -89,6 +100,11 @@ export default class ParkRecs extends React.Component {
     });
   }
 
+  handleCategoryChange(e) {
+    this.setState({
+      category: e.target.value,
+    });
+  }
 
   /* FUNCTIONS TO MAKE HTTP REQUESTS TO THE SERVER */
 
@@ -121,9 +137,14 @@ export default class ParkRecs extends React.Component {
   }
 
   submitWildlife() {
-    // Send an HTTP request to the server.
+    var paramToken =
+      "http://localhost:8081/parks/" +
+      this.state.category.split("/").join("%2F") +
+      "&" +
+      this.state.status;
+    console.log(paramToken);
     fetch(
-      "http://localhost:8081/parks/" + this.state.wildlife + "&" + this.state.status,
+      paramToken,
       {
         method: "GET", // The type of HTTP request.
       }
@@ -150,7 +171,6 @@ export default class ParkRecs extends React.Component {
 
         <div className="container recommendations-container">
           <div className="jumbotron park">
-
             <div className="h4">Park Recommendations</div>
             <br></br>
 
@@ -198,28 +218,13 @@ export default class ParkRecs extends React.Component {
             <div className="input-container">
               <input
                 list="categories"
-                placeholder="--Select wildlife--"
-                value={this.state.wildlife}
-                onChange={this.handleWildlifeChange}
+                placeholder="--Select category--"
+                value={this.state.category}
+                onChange={this.handleCategoryChange}
                 id="wildlife"
                 className="wildlife-input"
               />
-              <datalist id="categories">
-                <option value="Algae"></option>
-                <option value="Amphibian"></option>
-                <option value="Bird"></option>
-                <option value="Crab/Lobster/Shrimp"></option>
-                <option value="Fish"></option>
-                <option value="Fungi"></option>
-                <option value="Insect"></option>
-                <option value="Invertebrate"></option>
-                <option value="Mammal"></option>
-                <option value="Nonvascular Plant"></option>
-                <option value="Reptile"></option>
-                <option value="Slug/Snail"></option>
-                <option value="Spider/Scorpion"></option>
-                <option value="Vascular Plant"></option>
-              </datalist>
+              <datalist id="categories">{this.state.categories}</datalist>
 
               <input
                 list="statuses"
@@ -234,6 +239,7 @@ export default class ParkRecs extends React.Component {
                 <option value="In recovery"></option>
                 <option value="Endangered"></option>
                 <option value="Species of concern"></option>
+                <option value="Not endangered"></option>
               </datalist>
               <button
                 id="submitWildlifeBtn"
@@ -272,7 +278,6 @@ export default class ParkRecs extends React.Component {
               </div>
             </div>
           </div>
-
           
         </div>
       </div>

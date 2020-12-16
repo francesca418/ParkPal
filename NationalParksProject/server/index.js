@@ -39,17 +39,35 @@ app.get('/states', routes.getAllStateIDs);
 /* ---- All: parks retrieval ---- */
 app.get('/parks', routes.getAllParks);
 
+/* ---- All: categories retrieval ---- */
+app.get('/categories', routes.getAllCategories);
+
+/* ---- All: features retrieval ---- */
+app.get('/features', routes.getAllFeatures);
+
+/* ---- All: parks retrieval ---- */
+app.get('/activities', routes.getAllActivities);
+
 /* ---- Parks: City, Range Recommendation ---- */
 app.get('/parks/:city&:state&:range', routes.getParksInRange);
 
 /* ---- Parks: Category, Status Recommendation ---- */
-app.get('/parks/:category&:status', routes.getParksWithWildlife);
+app.get('/parks/:category&:status', routes.getParksWithCategories);
 
-/* ---- Trails: City, Range Recommendation ---- */
-app.get('/trails/:city&:state&:range', routes.getTrailsInRange);
+/* ---- Parks: Wildlife Recommendation ---- */
+app.get('/wildlife/:wildlife', routes.getParksWithWildlife);
 
-/* ---- Trails: Feature, Activity Recommendation ---- */
-app.get('/trails/:feature&:activity', routes.getTrailsWithInfo);
+// /* ---- Trails: City, Range Recommendation ---- */
+// app.get('/trails/:city&:state&:range', routes.getTrailsInRange);
+
+// /* ---- Trails: Feature, Activity Recommendation ---- */
+// app.get('/trails/:feature&:activity', routes.getTrailsWithInfo);
+
+/* ---- Trails: City, Range, Feature, Activity, Difficulty Recommendation ---- */
+app.get(
+  "/trails/:city&:state&:range&:feature&:activity&:difficulty",
+  routes.getTrailsMetrics
+);
 
 app.listen(8081, () => {
 	console.log(`Server listening on PORT 8081`);
