@@ -186,7 +186,7 @@ function getAllActivities(req, res) {
     }
   });
 }
-
+/*  PARKS  */
 //FUNCTION: retrieve parks given a range and a city as center
 
 function getParksInRange(req, res) {
@@ -280,6 +280,7 @@ function getParksWithCategories(req, res) {
   });
 }
 
+/*  TRAILS  */
 function getTrailsMetrics(req, res) {
   var inputCity = req.params.city;
   var inputState = req.params.state;
@@ -417,6 +418,48 @@ function getTrailsWithInfo(req, res) {
   });
 }
 
+/*  WILDLIFE  */
+
+// FUNCTION: retrieve parks given a wildlife input
+function getParksWithWildlife(req, res) {
+  var inputString = req.params.wildlife;
+  var query = `
+  SELECT park_name, scientific_name, common_names
+  FROM Species
+  WHERE LOWER (common_names) LIKE '%${inputString}%'
+  ORDER BY park_name
+  `;
+
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log("Query error: ", err);
+    else {
+      console.log(rows.rows);
+      res.json(rows.rows);
+    }
+  });
+}
+
+// FUNCTION: retrieve parks given a wildlife input
+function getWildlifeForTree(req, res) {
+  var inputString = req.params.wildlife;
+  var inputPark = req.params.park;
+  var query = `
+  SELECT park_name, scientific_name, order_name, family, common_names from species 
+  WHERE LOWER (common_names) LIKE '%${inputString}%' AND park_name = '${inputPark}' 
+  ORDER BY park_name
+  `;
+
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log("Query error: ", err);
+    else {
+      console.log(rows.rows);
+      res.json(rows.rows);
+    }
+  });
+}
+
+
+
 // The exported functions, which can be accessed in index.js.
 module.exports = {
   signup: signup,
@@ -429,8 +472,9 @@ module.exports = {
   getAllActivities: getAllActivities,
   getParksInRange: getParksInRange,
   getParksWithCategories: getParksWithCategories,
-  getParksWithWildlife: getParksWithWildlife,
   getTrailsInRange: getTrailsInRange,
   getTrailsWithInfo: getTrailsWithInfo,
-  getTrailsMetrics: getTrailsMetrics
+  getTrailsMetrics: getTrailsMetrics,
+  getParksWithWildlife: getParksWithWildlife,
+  getWildlifeForTree: getWildlifeForTree
 };

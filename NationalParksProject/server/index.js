@@ -54,8 +54,11 @@ app.get('/parks/:city&:state&:range', routes.getParksInRange);
 /* ---- Parks: Category, Status Recommendation ---- */
 app.get('/parks/:category&:status', routes.getParksWithCategories);
 
-/* ---- Parks: Wildlife Recommendation ---- */
+/* ---- Wildlife: Wildlife Recommendation ---- */
 app.get('/wildlife/:wildlife', routes.getParksWithWildlife);
+
+/* ---- Parks: Wildlife Recommendation ---- */
+app.get('/wildlife/tree/:wildlife&:park', routes.getWildlifeForTree);
 
 // /* ---- Trails: City, Range Recommendation ---- */
 // app.get('/trails/:city&:state&:range', routes.getTrailsInRange);

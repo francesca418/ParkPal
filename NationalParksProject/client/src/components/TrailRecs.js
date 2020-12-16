@@ -225,6 +225,9 @@ export default class TrailRecs extends React.Component {
       .catch((err) => console.log(err)); // Print the error if there is one.
   }
 
+  // TODO: 
+  submitTrailGrading() {}
+
   render() {
     return (
       <div className="Recommendations">
