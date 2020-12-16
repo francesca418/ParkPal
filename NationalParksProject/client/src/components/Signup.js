@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
+import '../style/UserAuth.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 
@@ -95,7 +96,7 @@ export default class Signup extends React.Component {
                     name="username"
                     className="password-input"
                 />
-                <Button variant="info" id="submitFormBtn" className="submitForm-btn" onClick={this.submitForm}>Submit</Button>
+                <Button variant="info" id="submitFormBtn" className="submit-btn" onClick={this.submitForm}>Submit</Button>
 
                 <div className="signup-wrapper">
                   <a href="/login" className="signup-redirect">

@@ -232,7 +232,7 @@ export default class ParkRecs extends React.Component {
                 <option value="Species of concern"></option>
                 <option value="Not endangered"></option>
               </datalist>
-              <Button variant="info" className="wildlife-btn" onClick={this.submitWildlife}>Submit</Button>
+              <Button variant="info" className="submit-btn" onClick={this.submitWildlife}>Submit</Button>
             </div>
           </div>
 

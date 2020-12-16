@@ -10,7 +10,7 @@
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-  height: 100px;
+  height: 80px;
 }
 
 .headers .header, 
@@ -18,4 +18,8 @@
 .trail_name, .popularity, .length, .elevation, .score,
 .scientific_name, .common_names, .order_name, .family {
   flex: 1 0 16%;
+}
+
+.submit-btn {
+  margin: 20px 20px;
 }
