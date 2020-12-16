@@ -349,6 +349,48 @@ function getTrailsMetrics(req, res) {
   });
 }
 
+function getTrailsLevels(req, res) {
+  var inputPark = req.params.park;
+  // var routeType = req.params.route;
+  var inputLevel = req.params.level;
+  var query = `
+  WITH ParksTable AS (
+    SELECT t.name, t.park_name, t.popularity, t.length, t.elevation_gain, t.difficulty_rating
+    FROM Trails t
+    WHERE park_name = '${inputPark}'
+  ), ScoreTable AS (
+    SELECT p.name, p.park_name, p.popularity, p.length, p.elevation_gain, p.difficulty_rating,
+    (0.5 * difficulty_rating + 0.25 * log(2, elevation_gain) + 0.25 * log(3, length)) AS score 
+    FROM ParksTable p
+  ), LevelTable AS (
+    SELECT name, park_name, popularity, length, elevation_gain, difficulty_rating, score, 
+    (CASE
+        WHEN score >= 1 AND score < 4 THEN 'Beginner'
+        WHEN score >= 4 AND score < 7  THEN 'Intermediate'
+        WHEN score >= 7 THEN 'Advanced'
+        ELSE 'NA'
+    END) trail_level
+    FROM ScoreTable s
+  )
+
+  SELECT s.name, s.park_name, s.popularity, s.length, s.elevation_gain, s.difficulty_rating, s.score
+  FROM LevelTable s 
+  WHERE s.trail_level = '${inputLevel}'
+  ORDER BY s.score DESC
+  `;
+
+  // -- AND route_type = '${routeType}'
+  
+
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log("Query error: ", err);
+    else {
+      console.log(rows.rows);
+      res.json(rows.rows);
+    }
+  });
+}
+
 function getTrailsInRange(req, res) {
   var inputCity = req.params.city;
   var inputState = req.params.state;
@@ -475,6 +517,7 @@ module.exports = {
   getTrailsInRange: getTrailsInRange,
   getTrailsWithInfo: getTrailsWithInfo,
   getTrailsMetrics: getTrailsMetrics,
+  getTrailsLevels: getTrailsLevels,
   getParksWithWildlife: getParksWithWildlife,
   getWildlifeForTree: getWildlifeForTree
 };

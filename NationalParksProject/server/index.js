@@ -72,6 +72,12 @@ app.get(
   routes.getTrailsMetrics
 );
 
+/* ---- Trails: Gradings ---- */
+app.get(
+  "/trails/level/:park&:level",
+  routes.getTrailsLevels
+);
+
 app.listen(8081, () => {
 	console.log(`Server listening on PORT 8081`);
 });
