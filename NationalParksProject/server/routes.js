@@ -485,10 +485,18 @@ function getParksWithWildlife(req, res) {
 function getWildlifeForTree(req, res) {
   var inputString = req.params.wildlife;
   var inputPark = req.params.park;
+  var inputTaxon = req.params.taxon;
   var query = `
-  SELECT park_name, scientific_name, order_name, family, common_names from species 
-  WHERE LOWER (common_names) LIKE '%${inputString}%' AND park_name = '${inputPark}' 
-  ORDER BY park_name
+  WITH SpeciesTaxa AS (
+    SELECT ${inputTaxon}
+    FROM Species 
+    WHERE park_name = '${inputPark}' AND LOWER (common_names) LIKE '%${inputString}%'
+  )
+  SELECT s.park_name, s.scientific_name, s.order_name, s.family, s.common_names
+  FROM Species s JOIN SpeciesTaxa st
+  ON s.${inputTaxon} = st.${inputTaxon}
+  WHERE s.park_name = '${inputPark}'
+   
   `;
 
   connection.execute(query, function (err, rows, fields) {

@@ -14,11 +14,13 @@ export default class Wildlife extends React.Component {
       park: "",
       wildlives: [],
       parks: [],
+      taxon: ""
     };
 
     // HANDLERS:
     this.handleWildlifeChange = this.handleWildlifeChange.bind(this);
     this.handleParkChange = this.handleParkChange.bind(this);
+    this.handleTaxonChange = this.handleTaxonChange.bind(this);
 
     // functions that make HTTP requests
     this.submitWildlife = this.submitWildlife.bind(this);
@@ -35,6 +37,12 @@ export default class Wildlife extends React.Component {
   handleParkChange(e) {
     this.setState({
       park: e.target.value,
+    });
+  }
+
+  handleTaxonChange(e) {
+    this.setState({
+      taxon: e.target.value,
     });
   }
 
@@ -92,7 +100,7 @@ export default class Wildlife extends React.Component {
   submitTree() {
     // Send an HTTP request to the server.
     fetch(
-      "http://localhost:8081/wildlife/tree/" + this.state.wildlife + "&" + this.state.park,
+      "http://localhost:8081/wildlife/tree/" + this.state.wildlife + "&" + this.state.park + '&' + this.state.taxon,
       {
         method: "GET", // The type of HTTP request.
       }
@@ -165,6 +173,19 @@ export default class Wildlife extends React.Component {
                 className="park-input"
               />
               <datalist id="parks">{this.state.parks}</datalist>
+
+              <input
+                list="taxa"
+                placeholder="--Select taxon--"
+                value={this.state.taxon}
+                onChange={this.handleTaxonChange}
+                id="taxon"
+                className="taxon-input"
+              />
+              <datalist id="taxa">
+                <option value="order_name"></option>
+                <option value="family"></option>
+              </datalist>
 
 
               <button
