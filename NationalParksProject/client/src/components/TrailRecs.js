@@ -14,10 +14,13 @@ export default class TrailRecs extends React.Component {
       latLongRange: 0,
       feature: "",
       activity: "",
-      difficulty: 0,
+      difficulty: 1,
+      level: "",
+      park: "",
       recTrails: [],
       features: [],
       activities: [],
+      parks: [],
     };
 
     // handlers for new inputs
@@ -27,11 +30,15 @@ export default class TrailRecs extends React.Component {
     this.handleFeatureChange = this.handleFeatureChange.bind(this);
     this.handleActivityChange = this.handleActivityChange.bind(this);
     this.handleDifficultyChange = this.handleDifficultyChange.bind(this);
+    this.handleLevelChange = this.handleLevelChange.bind(this);
+    this.handleParkChange = this.handleParkChange.bind(this);
+    
 
     // functions that make HTTP requests
     this.submitCityForTrails = this.submitCityForTrails.bind(this);
     this.submitTrailInfo = this.submitTrailInfo.bind(this);
     this.submitTrailMetrics = this.submitTrailMetrics.bind(this);
+    this.submitTrailLevel = this.submitTrailLevel.bind(this);
   }
 
   handleCityChange(e) {
@@ -49,6 +56,36 @@ export default class TrailRecs extends React.Component {
   handleDifficultyChange(e) {
     this.setState({
       difficulty: e.target.value,
+    });
+  }
+
+  handleLevelChange(e) {
+    this.setState({
+      level: e.target.value,
+    });
+  }
+
+  handleParkChange(e) {
+    this.setState({
+      park: e.target.value,
+    });
+  }
+
+  handleUSStateChange(e) {
+    this.setState({
+      USState: e.target.value,
+    });
+  }
+  
+  handleFeatureChange(e) {
+    this.setState({
+      feature: e.target.value,
+    });
+  }
+
+  handleActivityChange(e) {
+    this.setState({
+      activity: e.target.value,
     });
   }
 
@@ -115,25 +152,31 @@ export default class TrailRecs extends React.Component {
         });
       })
       .catch((err) => console.log(err)); // Print the error if there is one.
+
+      // Send an HTTP request to the server.
+    fetch("http://localhost:8081/parks", {
+      method: "GET", // The type of HTTP request.
+    })
+      .then((res) => res.json()) // Convert the response data to a JSON.
+      .then((parksList) => {
+        if (!parksList) return;
+        // Map each Obj to an HTML element
+
+        let parksDivs = parksList.map((parkObj, i) => (
+          //<option id={decadeObj.decade} value={decadeObj.decade} />
+          <option value={parkObj.PARK_NAME} />
+        ));
+
+        // Set the state of the genres list to the value returned by the HTTP response from the server.
+        this.setState({
+          parks: parksDivs,
+        });
+      })
+      .catch((err) => console.log(err)); // Print the error if there is one.
+
   }
 
-  handleUSStateChange(e) {
-    this.setState({
-      USState: e.target.value,
-    });
-  }
   
-  handleFeatureChange(e) {
-    this.setState({
-      feature: e.target.value,
-    });
-  }
-
-  handleActivityChange(e) {
-    this.setState({
-      activity: e.target.value,
-    });
-  }
 
   /* FUNCTIONS TO MAKE HTTP REQUESTS TO THE SERVER */
 
@@ -206,6 +249,33 @@ export default class TrailRecs extends React.Component {
         this.state.activity +
         "&" +
         this.state.difficulty,
+      {
+        method: "GET", // The type of HTTP request.
+      }
+    )
+      .then((res) => res.json()) // Convert the response data to a JSON.
+      .then((trailList) => {
+        if (!trailList) return;
+        // Map each attribute of a ParkRow in this.state.redParks to an HTML element
+        let trailDivs = trailList.map((trail, i) => <TrailRow trail={trail} />);
+
+        // Set the state of the park list to the value returned by the HTTP response from the server.
+        this.setState({
+          recTrails: trailDivs,
+        });
+      })
+
+      .catch((err) => console.log(err)); // Print the error if there is one.
+  }
+
+  // TODO: 
+  submitTrailLevel() {
+    // Send an HTTP request to the server.
+    fetch(
+      "http://localhost:8081/trails/level/" +
+        this.state.park +
+        '&' +
+        this.state.level,
       {
         method: "GET", // The type of HTTP request.
       }
@@ -302,6 +372,44 @@ export default class TrailRecs extends React.Component {
                 id="submitTrailMetrics"
                 className="submit-btn"
                 onClick={this.submitTrailMetrics}
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+
+          <div className="jumbotron park">
+            <div className="h4">Trail Level</div>
+            <br></br>
+
+            <div className="input-container">
+              <input
+                list="parks"
+                placeholder="--Select park--"
+                value={this.state.park}
+                onChange={this.handleParkChange}
+                id="park"
+                className="park-input"
+              />
+              <datalist id="parks">{this.state.parks}</datalist>
+
+              <input
+                list="levels"
+                placeholder="--Select level--"
+                value={this.state.level}
+                onChange={this.handleLevelChange}
+                id="level"
+                className="feature-input"
+              />
+              <datalist id="levels">
+                <option value="Beginner"></option>
+                <option value="Intermediate"></option>
+                <option value="Advanced"></option>
+              </datalist>
+              <button
+                id="submitTrailLevel"
+                className="submit-btn"
+                onClick={this.submitTrailLevel}
               >
                 Submit
               </button>

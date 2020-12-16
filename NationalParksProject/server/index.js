@@ -54,8 +54,11 @@ app.get('/parks/:city&:state&:range', routes.getParksInRange);
 /* ---- Parks: Category, Status Recommendation ---- */
 app.get('/parks/:category&:status', routes.getParksWithCategories);
 
-/* ---- Parks: Wildlife Recommendation ---- */
+/* ---- Wildlife: Wildlife Recommendation ---- */
 app.get('/wildlife/:wildlife', routes.getParksWithWildlife);
+
+/* ---- Parks: Wildlife Recommendation ---- */
+app.get('/wildlife/tree/:wildlife&:park&:taxon', routes.getWildlifeForTree);
 
 // /* ---- Trails: City, Range Recommendation ---- */
 // app.get('/trails/:city&:state&:range', routes.getTrailsInRange);
@@ -67,6 +70,12 @@ app.get('/wildlife/:wildlife', routes.getParksWithWildlife);
 app.get(
   "/trails/:city&:state&:range&:feature&:activity&:difficulty",
   routes.getTrailsMetrics
+);
+
+/* ---- Trails: Gradings ---- */
+app.get(
+  "/trails/level/:park&:level",
+  routes.getTrailsLevels
 );
 
 app.listen(8081, () => {

@@ -186,7 +186,7 @@ function getAllActivities(req, res) {
     }
   });
 }
-
+/*  PARKS  */
 //FUNCTION: retrieve parks given a range and a city as center
 
 function getParksInRange(req, res) {
@@ -280,6 +280,7 @@ function getParksWithCategories(req, res) {
   });
 }
 
+/*  TRAILS  */
 function getTrailsMetrics(req, res) {
   var inputCity = req.params.city;
   var inputState = req.params.state;
@@ -338,6 +339,48 @@ function getTrailsMetrics(req, res) {
   ORDER BY score
   `;
 
+
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log("Query error: ", err);
+    else {
+      console.log(rows.rows);
+      res.json(rows.rows);
+    }
+  });
+}
+
+function getTrailsLevels(req, res) {
+  var inputPark = req.params.park;
+  // var routeType = req.params.route;
+  var inputLevel = req.params.level;
+  var query = `
+  WITH ParksTable AS (
+    SELECT t.name, t.park_name, t.popularity, t.length, t.elevation_gain, t.difficulty_rating
+    FROM Trails t
+    WHERE park_name = '${inputPark}'
+  ), ScoreTable AS (
+    SELECT p.name, p.park_name, p.popularity, p.length, p.elevation_gain, p.difficulty_rating,
+    (0.5 * difficulty_rating + 0.25 * log(2, elevation_gain) + 0.25 * log(3, length)) AS score 
+    FROM ParksTable p
+  ), LevelTable AS (
+    SELECT name, park_name, popularity, length, elevation_gain, difficulty_rating, score, 
+    (CASE
+        WHEN score >= 1 AND score < 4 THEN 'Beginner'
+        WHEN score >= 4 AND score < 7  THEN 'Intermediate'
+        WHEN score >= 7 THEN 'Advanced'
+        ELSE 'NA'
+    END) trail_level
+    FROM ScoreTable s
+  )
+
+  SELECT s.name, s.park_name, s.popularity, s.length, s.elevation_gain, s.difficulty_rating, s.score
+  FROM LevelTable s 
+  WHERE s.trail_level = '${inputLevel}'
+  ORDER BY s.score DESC
+  `;
+
+  // -- AND route_type = '${routeType}'
+  
 
   connection.execute(query, function (err, rows, fields) {
     if (err) console.log("Query error: ", err);
@@ -417,6 +460,56 @@ function getTrailsWithInfo(req, res) {
   });
 }
 
+/*  WILDLIFE  */
+
+// FUNCTION: retrieve parks given a wildlife input
+function getParksWithWildlife(req, res) {
+  var inputString = req.params.wildlife;
+  var query = `
+  SELECT park_name, scientific_name, common_names
+  FROM Species
+  WHERE LOWER (common_names) LIKE '%${inputString}%'
+  ORDER BY park_name
+  `;
+
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log("Query error: ", err);
+    else {
+      console.log(rows.rows);
+      res.json(rows.rows);
+    }
+  });
+}
+
+// FUNCTION: retrieve parks given a wildlife input
+function getWildlifeForTree(req, res) {
+  var inputString = req.params.wildlife;
+  var inputPark = req.params.park;
+  var inputTaxon = req.params.taxon;
+  var query = `
+  WITH SpeciesTaxa AS (
+    SELECT ${inputTaxon}
+    FROM Species 
+    WHERE park_name = '${inputPark}' AND LOWER (common_names) LIKE '%${inputString}%'
+  )
+  SELECT s.park_name, s.scientific_name, s.order_name, s.family, s.common_names
+  FROM Species s JOIN SpeciesTaxa st
+  ON s.${inputTaxon} = st.${inputTaxon}
+  WHERE s.park_name = '${inputPark}'
+   
+  `;
+
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log("Query error: ", err);
+    else {
+      console.log(rows.rows);
+      res.json(rows.rows);
+    }
+  });
+}
+
+
+
 // The exported functions, which can be accessed in index.js.
 module.exports = {
   signup: signup,
@@ -429,8 +522,10 @@ module.exports = {
   getAllActivities: getAllActivities,
   getParksInRange: getParksInRange,
   getParksWithCategories: getParksWithCategories,
-  getParksWithWildlife: getParksWithWildlife,
   getTrailsInRange: getTrailsInRange,
   getTrailsWithInfo: getTrailsWithInfo,
-  getTrailsMetrics: getTrailsMetrics
+  getTrailsMetrics: getTrailsMetrics,
+  getTrailsLevels: getTrailsLevels,
+  getParksWithWildlife: getParksWithWildlife,
+  getWildlifeForTree: getWildlifeForTree
 };
