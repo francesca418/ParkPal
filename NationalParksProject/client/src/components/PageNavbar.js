@@ -1,5 +1,8 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 
 export default class PageNavbar extends React.Component {
 	constructor(props) {
@@ -17,16 +20,16 @@ export default class PageNavbar extends React.Component {
 		let navbarDivs = pageList.map((page, i) => {
 			if (this.props.active === page) {
 				return (
-					<a className="nav-item nav-link active" key={i} href={"/" + page}>
+					<Nav.Link className="nav-item nav-link active" key={i} href={"/" + page}>
 						{page.charAt(0).toUpperCase() + page.substring(1, page.length)}
-					</a>
+					</Nav.Link>
 				)
 			}
 			else {
 				return (
-					<a className="nav-item nav-link" key={i} href={"/" + page}>
+					<Nav.Link className="nav-item nav-link" key={i} href={"/" + page}>
 						{page.charAt(0).toUpperCase() + page.substring(1, page.length)}
-					</a>
+					</Nav.Link>
 				)
 			}
 		})
@@ -46,16 +49,16 @@ export default class PageNavbar extends React.Component {
 	render() {
 		return (
 			<div className="PageNavbar">
-				<nav className="navbar navbar-expand-lg navbar-light bg-light">
-			      <span className="navbar-brand center">ParkPal</span>
+				<Navbar bg="light" variant="light">
+			      <Navbar.Brand>ParkPal</Navbar.Brand>
 			      <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-			        <div className="navbar-nav">
-			        {this.state.navDivs}
-			        </div>
-					<button className="logout-btn" onClick={this.logout}>Logout</button>
+			        <Nav className="navbar-nav">
+			        	{this.state.navDivs}
+			        </Nav>
+					<Button variant="danger" className="logout-btn" onClick={this.logout}>Logout</Button>
 			      </div>
-				  <span>Hey {this.state.username}</span>
-			    </nav>
+				  <Navbar.Text className="signed-in">Signed in as: {this.state.username}</Navbar.Text>
+			    </Navbar>
 			</div>
   	);
 	}

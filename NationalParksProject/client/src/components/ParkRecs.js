@@ -162,7 +162,7 @@ export default class ParkRecs extends React.Component {
   render() {
     return (
       <div className="Recommendations">
-        <PageNavbar active="recommendations" />
+        <PageNavbar active="parks" />
         <br></br>
         <div className="container recommendations-container">
           <div className="jumbotron park">

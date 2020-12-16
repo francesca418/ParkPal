@@ -298,7 +298,7 @@ export default class TrailRecs extends React.Component {
   render() {
     return (
       <div className="Recommendations">
-        <PageNavbar active="recommendations" />
+        <PageNavbar active="trails" />
         <br></br>
 
         <div className="container recommendations-container">
