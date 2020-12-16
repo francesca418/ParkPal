@@ -72,7 +72,7 @@ function logout(req, res) {
 // If Windows: "C:\\oracle\\instantclient_19_9"
 // If Mac: process.env.HOME + "/Downloads/instantclient_19_8"
 try {
-  oracledb.initOracleClient({ libDir: "C:\\oracle\\instantclient_19_9" });
+  oracledb.initOracleClient({ libDir: process.env.HOME + "/Downloads/instantclient_19_8" });
 } catch (err) {
   console.error("Whoops!");
   console.error(err);
