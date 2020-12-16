@@ -37,8 +37,6 @@ export default class TrailRecs extends React.Component {
     
 
     // functions that make HTTP requests
-    this.submitCityForTrails = this.submitCityForTrails.bind(this);
-    this.submitTrailInfo = this.submitTrailInfo.bind(this);
     this.submitTrailMetrics = this.submitTrailMetrics.bind(this);
     this.submitTrailLevel = this.submitTrailLevel.bind(this);
   }
@@ -181,60 +179,6 @@ export default class TrailRecs extends React.Component {
   
 
   /* FUNCTIONS TO MAKE HTTP REQUESTS TO THE SERVER */
-
-  submitCityForTrails() {
-    // Send an HTTP request to the server.
-    fetch(
-      "http://localhost:8081/trails/" +
-        this.state.cityName +
-        "&" +
-        this.state.USState +
-        "&" +
-        this.state.latLongRange,
-      {
-        method: "GET", // The type of HTTP request.
-      }
-    )
-      .then((res) => res.json()) // Convert the response data to a JSON.
-      .then((trailList) => {
-        if (!trailList) return;
-        // Map each attribute of a ParkRow in this.state.redParks to an HTML element
-        let trailDivs = trailList.map((trail, i) => <TrailRow trail={trail} />);
-
-        // Set the state of the park list to the value returned by the HTTP response from the server.
-        this.setState({
-          recTrails: trailDivs,
-        });
-      })
-
-      .catch((err) => console.log(err)); // Print the error if there is one.
-  }
-
-  submitTrailInfo() {
-    // Send an HTTP request to the server.
-    fetch(
-      "http://localhost:8081/trails/" +
-        this.state.feature +
-        "&" +
-        this.state.activity,
-      {
-        method: "GET", // The type of HTTP request.
-      }
-    )
-      .then((res) => res.json()) // Convert the response data to a JSON.
-      .then((trailList) => {
-        if (!trailList) return;
-        // Map each attribute of a ParkRow in this.state.redParks to an HTML element
-        let trailDivs = trailList.map((trail, i) => <TrailRow trail={trail} />);
-
-        // Set the state of the park list to the value returned by the HTTP response from the server.
-        this.setState({
-          recTrails: trailDivs,
-        });
-      })
-
-      .catch((err) => console.log(err)); // Print the error if there is one.
-  }
 
   submitTrailMetrics() {
     // Send an HTTP request to the server.

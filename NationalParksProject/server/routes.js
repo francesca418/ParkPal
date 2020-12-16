@@ -393,75 +393,6 @@ function getTrailsLevels(req, res) {
   });
 }
 
-function getTrailsInRange(req, res) {
-  var inputCity = req.params.city;
-  var inputState = req.params.state;
-  var inputRange = req.params.range;
-  var query = `
-  WITH Location AS (
-    SELECT lng, lat 
-    FROM Cities WHERE '${inputCity}' = city AND '${inputState}' = state_id
-  ), BoundedParks AS (
-    SELECT p.park_code, p.park_name, p.state, p.acres, p.lat, p.lng
-    FROM Parks p, Location l
-    WHERE (p.lat BETWEEN l.lat - ${inputRange}/${R}*180/${pi} AND l.lat + ${inputRange}/${R}*180/${pi})
-    AND (p.lng BETWEEN l.lng - ${inputRange}/${R}*180/${pi}/COS(l.lat*${pi}/180) AND l.lat + ${inputRange}/${R}*180/${pi}/COS(l.lat*${pi}/180))
-  ), SelectedParks AS (
-    SELECT p.park_name
-    FROM BoundedParks p, Location l
-    WHERE ACOS(
-      SIN((p.lat * ${pi}) / 180) * 
-      SIN((l.lat * ${pi}) / 180) +
-      COS((p.lat * ${pi}) / 180) *
-      COS((l.lat * ${pi}) / 180) *
-      COS((p.lng * ${pi}) / 180 - (l.lng * ${pi}) / 180)
-    ) * ${R} < ${inputRange}
-  )
-
-  SELECT t.name, t.park_name, t.popularity 
-  FROM Trails t JOIN SelectedParks p 
-  ON t.park_name = p.park_name
-  ORDER BY t.park_name, t.popularity DESC
-  `;
-
-  connection.execute(query, function (err, rows, fields) {
-    if (err) console.log("Query error: ", err);
-    else {
-      console.log(rows.rows);
-      res.json(rows.rows);
-    }
-  });
-}
-
-function getTrailsWithInfo(req, res) {
-  
-  var inputFeature = req.params.feature;
-  var inputActivity = req.params.activity;
-  console.log(inputFeature);
-  console.log(inputActivity);  
-  var query = `
-  WITH FeatureTrails AS (
-    SELECT tf.trail_id, name, park_name 
-    FROM trail_features tf JOIN Trails t 
-    ON tf.trail_id = t.trail_id 
-    WHERE feature = '${inputFeature}'
-  )
-  SELECT ta.trail_id, ft.name, ft.park_name 
-  from trails_activities ta JOIN FeatureTrails ft 
-  ON ta.trail_id = ft.trail_id 
-  WHERE activity = '${inputActivity}'
-  ORDER BY ft.park_name
-  `;
-
-  connection.execute(query, function (err, rows, fields) {
-    if (err) console.log("Query error: ", err);
-    else {
-      console.log(rows.rows);
-      res.json(rows.rows);
-    }
-  });
-}
-
 /*  WILDLIFE  */
 
 // FUNCTION: retrieve parks given a wildlife input
@@ -510,8 +441,6 @@ function getWildlifeForTree(req, res) {
   });
 }
 
-
-
 // The exported functions, which can be accessed in index.js.
 module.exports = {
   signup: signup,
@@ -524,8 +453,6 @@ module.exports = {
   getAllActivities: getAllActivities,
   getParksInRange: getParksInRange,
   getParksWithCategories: getParksWithCategories,
-  getTrailsInRange: getTrailsInRange,
-  getTrailsWithInfo: getTrailsWithInfo,
   getTrailsMetrics: getTrailsMetrics,
   getTrailsLevels: getTrailsLevels,
   getParksWithWildlife: getParksWithWildlife,

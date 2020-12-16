@@ -31,7 +31,6 @@ app.post('/login', routes.login);
 
 app.post('/logout', routes.logout);
 
-
 /* ---- (Dashboard) ---- */
 /* ---- All: states retrieval ---- */
 app.get('/states', routes.getAllStateIDs);
@@ -59,12 +58,6 @@ app.get('/wildlife/:wildlife', routes.getParksWithWildlife);
 
 /* ---- Parks: Wildlife Recommendation ---- */
 app.get('/wildlife/tree/:wildlife&:park&:taxon', routes.getWildlifeForTree);
-
-// /* ---- Trails: City, Range Recommendation ---- */
-// app.get('/trails/:city&:state&:range', routes.getTrailsInRange);
-
-// /* ---- Trails: Feature, Activity Recommendation ---- */
-// app.get('/trails/:feature&:activity', routes.getTrailsWithInfo);
 
 /* ---- Trails: City, Range, Feature, Activity, Difficulty Recommendation ---- */
 app.get(
