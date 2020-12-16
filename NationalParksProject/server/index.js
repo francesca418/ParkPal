@@ -1,7 +1,12 @@
 const bodyParser = require('body-parser');
+var cookieSession = require('cookie-session');
 const express = require('express');
 var routes = require("./routes.js");
 const cors = require('cors');
+
+const mongoose = require('mongoose');
+// password is nationalParks450
+mongoose.connect('mongodb+srv://dbUser:nationalParks450@natlparksuserauth.smgbv.mongodb.net/<dbname>?retryWrites=true&w=majority');
 
 const app = express();
 
@@ -9,9 +14,23 @@ app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(cookieSession({
+	name: 'session',
+	keys: ['xofenckspqkmcsoqjnvinfdms'],
+	maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }))
+
 /* ---------------------------------------------------------------- */
 /* ------------------- Route handler registration ----------------- */
 /* ---------------------------------------------------------------- */
+
+/* ----- User Authentication ----- */
+app.post('/signup', routes.signup);
+
+app.post('/login', routes.login);
+
+app.post('/logout', routes.logout);
+
 
 /* ---- (Dashboard) ---- */
 /* ---- All: states retrieval ---- */

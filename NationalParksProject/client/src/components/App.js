@@ -4,10 +4,12 @@ import {
 	Route,
 	Switch
 } from 'react-router-dom';
+
+import Login from './Login';
+import Signup from './Signup';
 import Dashboard from './Dashboard';
 import ParkRecs from './ParkRecs';
 import TrailRecs from './TrailRecs';
-import TripPlanning from './TripPlanning';
 import Wildlife from './Wildlife';
 
 export default class App extends React.Component {
@@ -48,6 +50,24 @@ export default class App extends React.Component {
 							render={() => (
 								<Wildlife />
 							)}
+						/>
+						<Route 
+							exact
+							path="/login"
+							render={() => (
+								<Login />
+							)}
+						/>
+						<Route 
+							exact
+							path="/signup"
+							render={() => (
+								<Signup />
+							)}
+						/>
+						<Route 
+							exact
+							path="/logout"
 						/>
 					</Switch>
 				</Router>

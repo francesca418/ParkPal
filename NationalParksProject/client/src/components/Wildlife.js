@@ -1,7 +1,5 @@
 import React from 'react';
 import PageNavbar from './PageNavbar';
-import BestGenreRow from './BestGenreRow';
-import '../style/BestGenres.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class BestGenre extends React.Component {
@@ -9,68 +7,23 @@ export default class BestGenre extends React.Component {
 		super(props);
 
 		this.state = {
-			commonname: "",
+			commonName: "",
 			recParks: [],
 		};
 
 		this.handleCommonNameChange = this.handleCommonNameChange.bind(this);
 	}
 
-	handleCommonNameChange() {
-
-	}
+	handleCommonNameChange(e) {
+		this.setState({
+		  commonName: e.target.value,
+		});
+	  }
 
 	/* ---- Q3a (Best Genres) ---- */
 	componentDidMount() {
-	    // // Send an HTTP request to the server.
-		// fetch("http://localhost:8081/decades", {
-		// 	method: 'GET' // The type of HTTP request.
-		//   })
-		// 	.then(res => res.json()) // Convert the response data to a JSON.
-		// 	.then(decadesList => {
-		// 	  if (!decadesList) return;
-		// 	  // Map each Obj to an HTML element 
-
-		// 	  let decadesDivs = decadesList.map((decadeObj, i) =>
-		// 		//<option id={decadeObj.decade} value={decadeObj.decade} />
-		// 		<option value={decadeObj.decade} label={decadeObj.decade} />
-		// 	  );
-	  
-		// 	  // Set the state of the genres list to the value returned by the HTTP response from the server.
-		// 	  this.setState({
-		// 		decades: decadesDivs
-		// 	  })
-		// 	})
-		// 	.catch(err => console.log(err))	// Print the error if there is one.
+		
 	}
-
-	// handleChange(e) {
-	// 	this.setState({
-	// 		selectedDecade: e.target.value
-	// 	});
-	// }
-
-	/* ---- Q3b (Best Genres) ---- */
-	// submitDecade() {
-	// 	// Send an HTTP request to the server.
-	// 	fetch("http://localhost:8081/decades/" + this.state.selectedDecade, {
-	// 		method: "GET", // The type of HTTP request.
-	// 	  })
-	// 		.then(res => res.json()) // Convert the response data to a JSON.
-	// 		.then(genreList => {
-	// 		  // Map each attribute of a BestGenreRow in this.state.GENRES to an HTML element
-	// 		  let genreDivs = genreList.map((genreRow, i) => (
-	// 		  <BestGenreRow genreRow = {genreRow}/>
-	// 		  ));
-	  
-	// 		  // Set the state of the person list to the value returned by the HTTP response from the server.
-	// 		  this.setState({
-	// 			genres: genreDivs,
-	// 		  });
-	// 		})
-			
-	// 		.catch(err => console.log(err)); // Print the error if there is one.
-	// }
 
 	submitCommonName() {
 		
@@ -79,37 +32,6 @@ export default class BestGenre extends React.Component {
 	render() {
 
 		return (
-			// <div className="BestGenres">
-			// 	<PageNavbar active="bestgenres" />
-
-			// 	<div className="container bestgenres-container">
-			//       <div className="jumbotron">
-			//         <div className="h5">Best Genres</div>
-
-			//         <div className="years-container">
-			//           <div className="dropdown-container">
-			//             <select value={this.state.selectedDecade} onChange={this.handleChange} className="dropdown" id="decadesDropdown">
-			//             	<option select value> -- select an option -- </option>
-			//             	{this.state.decades}
-			//             </select>
-			//             <button className="submit-btn" id="decadesSubmitBtn" onClick={this.submitDecade}>Submit</button>
-			//           </div>
-			//         </div>
-			//       </div>
-			//       <div className="jumbotron">
-			//         <div className="movies-container">
-			//           <div className="movie">
-			//             <div className="header"><strong>Genre</strong></div>
-			//             <div className="header"><strong>Average Rating</strong></div>
-			//           </div>
-			//           <div className="movies-container" id="results">
-			//             {this.state.genres}
-			//           </div>
-			//         </div>
-			//       </div>
-			//     </div>
-			// </div>
-
 			<div className="wildlife">
 				<PageNavbar active="wildlife" />
 				
@@ -119,7 +41,7 @@ export default class BestGenre extends React.Component {
 						<br></br>
 						
 						<div className="input-container">
-			    			<input type='text' placeholder="Enter common name" value={this.state.commonname} onChange={this.handleCommonNameChange} id="commonName" className="commonName-input"/>
+			    			<input type='text' placeholder="Enter common name" value={this.state.commonName} onChange={this.handleCommonNameChange} id="commonName" className="commonName-input"/>
  			    			<button id="submitCommonNameBtn" className="submitCommonName-btn" onClick={this.submitCommonName}>Submit</button>
 			    		</div>
 					</div>

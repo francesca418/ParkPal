@@ -6,12 +6,13 @@ export default class PageNavbar extends React.Component {
 		super(props);
 
 		this.state = {
-			navDivs: []
+			navDivs: [],
+			username: ""
 		}
 	}
 
 	componentDidMount() {
-		const pageList = ['dashboard', 'parks', 'trails', 'wildlife'];
+		const pageList = ['dashboard', 'parks', 'trails', 'wildlife', 'login', 'signup'];
 
 		let navbarDivs = pageList.map((page, i) => {
 			if (this.props.active === page) {
@@ -33,6 +34,13 @@ export default class PageNavbar extends React.Component {
 		this.setState({
 			navDivs: navbarDivs
 		});
+
+		var username = localStorage.getItem("username")
+		this.setState({ username: username })
+	}
+
+	logout() {
+		localStorage.removeItem("username")
 	}
 
 	render() {
@@ -44,7 +52,9 @@ export default class PageNavbar extends React.Component {
 			        <div className="navbar-nav">
 			        {this.state.navDivs}
 			        </div>
+					<button className="logout-btn" onClick={this.logout}>Logout</button>
 			      </div>
+				  <span>Hey {this.state.username}</span>
 			    </nav>
 			</div>
   	);

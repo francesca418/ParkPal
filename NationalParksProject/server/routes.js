@@ -1,11 +1,80 @@
+const bcrypt = require('bcryptjs');
+const mongoose = require('mongoose');
+const User = require('./schemas/User');
+
 var config = require('./db-config.js');
 var oracledb = require('oracledb');
 
 config.connectionLimit = 10;
 
+/* ----- User Authentication ----- */
+
+// SIGN UP
+function signup(req, res) {
+  User.findOne({
+    username: req.body.username
+  }).then((user) => {
+    if (user) {
+      console.log("Username already exists");
+      // TODO: send error message
+    } else {
+      const newUser = new User({
+        username: req.body.username,
+        password: req.body.password
+      });
+
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newUser.password, salt, function(err, hash) {
+          if (err) throw err;
+          newUser.password = hash;
+          newUser
+            .save()
+            .then((user) => res.json(user))
+            .catch((err) => console.log(err))
+        });
+      });
+    }
+  });
+}
+
+// LOGIN
+function login(req, res) {
+  const username = req.body.username
+  const password = req.body.password
+  const error = req.body.error
+  const redirect = req.body.redirect
+
+  User.findOne({ username }).then((user) => {
+    if (!user) {
+      console.log("Username not found");
+      // TO DO: send error message
+    }
+
+    bcrypt.compare(password, user.password, function(err, isMatch) {
+      if (isMatch) {
+        console.log("Passwords match");
+
+        res.send({ username, password, error, redirect })
+      } else {
+        console.log("Incorrect password");
+        // TO DO: send error message
+      }
+    });
+  })
+}
+
+// LOGOUT
+function logout(req, res) {
+  
+}
+
+
 /* ----- Connects to your Oracle database ----- */
+
+// If Windows: "C:\\oracle\\instantclient_19_9"
+// If Mac: "/Downloads/instantclient_19_8"
 try {
-  oracledb.initOracleClient({ libDir: "C:\\oracle\\instantclient_19_9" });
+  oracledb.initOracleClient({ libDir: process.env.HOME + '/Downloads/instantclient_19_8' });
 } catch (err) {
   console.error("Whoops!");
   console.error(err);
@@ -208,6 +277,9 @@ function getTrailsWithInfo(req, res) {
 
 // The exported functions, which can be accessed in index.js.
 module.exports = {
+  signup: signup,
+  login: login,
+  logout: logout,
   getAllStateIDs: getAllStateIDs,
   getAllParks: getAllParks,
   getParksInRange: getParksInRange,

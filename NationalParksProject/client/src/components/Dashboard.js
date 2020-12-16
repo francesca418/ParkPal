@@ -10,17 +10,8 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-
-    // The state maintained by this React Component. This component maintains the list of genres,
-    // and a list of movies for a specified genre.
-    this.state = {
-      genres: [],
-      movies: []
-    }
-
   }
 
-  // React function that is called when the page load.
   componentDidMount() {
 
   }

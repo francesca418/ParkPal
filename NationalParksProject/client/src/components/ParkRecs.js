@@ -89,29 +89,6 @@ export default class ParkRecs extends React.Component {
     });
   }
 
-  /* ---- Q2 (Recommendations) ---- */
-  // // Hint: Name of movie submitted is contained in `this.state.movieName`.
-  // submitMovie() {
-  // 	    // Send an HTTP request to the server.
-  // 		fetch("http://localhost:8081/recommendations/" + this.state.movieName, {
-  // 			method: "GET", // The type of HTTP request.
-  // 		  })
-  // 			.then(res => res.json()) // Convert the response data to a JSON.
-  // 			.then(movieList => {
-  // 			  // Map each attribute of a DashboardMovieRow in this.state.MOVIES to an HTML element
-  // 			  let movieDivs = movieList.map((movie, i) => (
-  // 			  <RecommendationsRow movie = {movie}/>
-  // 			  ));
-
-  // 			  // Set the state of the person list to the value returned by the HTTP response from the server.
-  // 			  this.setState({
-  // 				recMovies: movieDivs,
-  // 			  });
-  // 			})
-
-  // 			.catch(err => console.log(err)); // Print the error if there is one.
-
-  // }
 
   /* FUNCTIONS TO MAKE HTTP REQUESTS TO THE SERVER */
 
@@ -173,24 +150,6 @@ export default class ParkRecs extends React.Component {
 
         <div className="container recommendations-container">
           <div className="jumbotron park">
-            {/* <div className="h5">Recommendations</div>
-			    		<br></br>
-			    		<div className="input-container">
-			    			<input type='text' placeholder="Enter Movie Name" value={this.state.movieName} onChange={this.handleMovieNameChange} id="movieName" className="movie-input"/>
-			    			<button id="submitMovieBtn" className="submit-btn" onClick={this.submitMovie}>Submit</button>
-			    		</div>
-			    		<div className="header-container">
-			    			<div className="h6">You may like ...</div>
-			    			<div className="headers">
-			    				<div className="header"><strong>Title</strong></div>
-			    				<div className="header"><strong>Movie ID</strong></div>
-					            <div className="header"><strong>Rating</strong></div>
-					            <div className="header"><strong>Vote Count</strong></div>
-			    			</div>
-			    		</div>
-			    		<div className="results-container" id="results">
-			    			{this.state.recMovies}
-			    		</div> */}
 
             <div className="h4">Park Recommendations</div>
             <br></br>

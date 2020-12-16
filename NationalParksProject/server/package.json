@@ -10,10 +10,16 @@
   "author": "Gregory Kofman <kofmangregory@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "aws-sdk": "latest",
+    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "aws-sdk": "latest",
-    "oracledb": "latest"
+    "mongoose": "^5.11.8",
+    "nodemon": "^2.0.6",
+    "oracledb": "latest",
+    "react-redirect": "^1.0.0"
   }
 }
