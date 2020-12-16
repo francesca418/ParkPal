@@ -71,7 +71,7 @@ export default class Signup extends React.Component {
                 <div className="h4">User signup</div>
                 <br></br>
 
-                {error !== null ? (
+                {error === null ? (
                   ''
                 ) : (
                   <div className="error-text-wrapper">

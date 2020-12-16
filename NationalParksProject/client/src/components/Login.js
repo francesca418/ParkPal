@@ -49,9 +49,7 @@ export default class Login extends React.Component {
       },
       body: JSON.stringify({
         username: this.state.username,
-        password: this.state.password,
-        error: this.state.error,
-        redirect: this.state.redirect,
+        password: this.state.password 
       }),
     })
     .then((res) => res.json())
@@ -82,11 +80,11 @@ export default class Login extends React.Component {
                 <div className="h4">User login</div>
                 <br></br>
 
-                {error !== null ? (
+                {error === null ? (
                   ''
                 ) : (
                   <div className="error-text-wrapper">
-                    <span className="error-text">{error}</span>
+                    <span className="error-text">{this.state.error}</span>
                   </div>
                 )}
 

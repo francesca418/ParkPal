@@ -16,7 +16,7 @@ function signup(req, res) {
   }).then((user) => {
     if (user) {
       console.log("Username already exists");
-      // TODO: send error message
+      res.send({ message: "Username already exists" })
     } else {
       const newUser = new User({
         username: req.body.username,
@@ -41,23 +41,21 @@ function signup(req, res) {
 function login(req, res) {
   const username = req.body.username
   const password = req.body.password
-  const error = req.body.error
-  const redirect = req.body.redirect
 
   User.findOne({ username }).then((user) => {
     if (!user) {
       console.log("Username not found");
-      // TO DO: send error message
+      res.send({ message: "Username not found" })
     }
 
     bcrypt.compare(password, user.password, function(err, isMatch) {
       if (isMatch) {
         console.log("Passwords match");
 
-        res.send({ username, password, error, redirect })
+        res.send({ username, password })
       } else {
         console.log("Incorrect password");
-        // TO DO: send error message
+        res.send({ message: "Incorrect password" })
       }
     });
   })
