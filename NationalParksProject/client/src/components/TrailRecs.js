@@ -14,7 +14,10 @@ export default class TrailRecs extends React.Component {
       latLongRange: 0,
       feature: "",
       activity: "",
+      difficulty: 0,
       recTrails: [],
+      features: [],
+      activities: [],
     };
 
     // handlers for new inputs
@@ -23,10 +26,12 @@ export default class TrailRecs extends React.Component {
     this.handleLatLongChange = this.handleLatLongChange.bind(this);
     this.handleFeatureChange = this.handleFeatureChange.bind(this);
     this.handleActivityChange = this.handleActivityChange.bind(this);
+    this.handleDifficultyChange = this.handleDifficultyChange.bind(this);
 
     // functions that make HTTP requests
     this.submitCityForTrails = this.submitCityForTrails.bind(this);
     this.submitTrailInfo = this.submitTrailInfo.bind(this);
+    this.submitTrailMetrics = this.submitTrailMetrics.bind(this);
   }
 
   handleCityChange(e) {
@@ -41,15 +46,9 @@ export default class TrailRecs extends React.Component {
     });
   }
 
-  handleFeatureChange(e) {
+  handleDifficultyChange(e) {
     this.setState({
-      feature: e.target.value,
-    });
-  }
-
-  handleActivityChange(e) {
-    this.setState({
-      activity: e.target.value,
+      difficulty: e.target.value,
     });
   }
 
@@ -74,11 +73,65 @@ export default class TrailRecs extends React.Component {
         });
       })
       .catch((err) => console.log(err)); // Print the error if there is one.
+
+    // Send an HTTP request to the server.
+    fetch("http://localhost:8081/features", {
+      method: "GET", // The type of HTTP request.
+    })
+      .then((res) => res.json()) // Convert the response data to a JSON.
+      .then((featuresList) => {
+        if (!featuresList) return;
+        // Map each Obj to an HTML element
+
+        let featuresDivs = featuresList.map((featureObj, i) => (
+          //<option id={decadeObj.decade} value={decadeObj.decade} />
+          <option value={featureObj.FEATURE} />
+        ));
+
+        // Set the state of the genres list to the value returned by the HTTP response from the server.
+        this.setState({
+          features: featuresDivs,
+        });
+      })
+      .catch((err) => console.log(err)); // Print the error if there is one.
+
+    // Send an HTTP request to the server.
+    fetch("http://localhost:8081/activities", {
+      method: "GET", // The type of HTTP request.
+    })
+      .then((res) => res.json()) // Convert the response data to a JSON.
+      .then((activitiesList) => {
+        if (!activitiesList) return;
+        // Map each Obj to an HTML element
+
+        let activitiesDivs = activitiesList.map((activityObj, i) => (
+          //<option id={decadeObj.decade} value={decadeObj.decade} />
+          <option value={activityObj.ACTIVITY} />
+        ));
+
+        // Set the state of the genres list to the value returned by the HTTP response from the server.
+        this.setState({
+          activities: activitiesDivs,
+        });
+      })
+      .catch((err) => console.log(err)); // Print the error if there is one.
   }
 
   handleUSStateChange(e) {
     this.setState({
       USState: e.target.value,
+    });
+  }
+  
+  handleFeatureChange(e) {
+    this.setState({
+      feature: e.target.value,
+    });
+  }
+
+  handleActivityChange(e) {
+    this.setState({
+      activity: e.target.value,
     });
   }
 
@@ -115,7 +168,44 @@ export default class TrailRecs extends React.Component {
   submitTrailInfo() {
     // Send an HTTP request to the server.
     fetch(
-      "http://localhost:8081/trails/" + this.state.feature + "&" + this.state.activity,
+      "http://localhost:8081/trails/" +
+        this.state.feature +
+        "&" +
+        this.state.activity,
+      {
+        method: "GET", // The type of HTTP request.
+      }
+    )
+      .then((res) => res.json()) // Convert the response data to a JSON.
+      .then((trailList) => {
+        if (!trailList) return;
+        // Map each attribute of a ParkRow in this.state.redParks to an HTML element
+        let trailDivs = trailList.map((trail, i) => <TrailRow trail={trail} />);
+
+        // Set the state of the park list to the value returned by the HTTP response from the server.
+        this.setState({
+          recTrails: trailDivs,
+        });
+      })
+
+      .catch((err) => console.log(err)); // Print the error if there is one.
+  }
+
+  submitTrailMetrics() {
+    // Send an HTTP request to the server.
+    fetch(
+      "http://localhost:8081/trails/" +
+        this.state.cityName +
+        "&" +
+        this.state.USState +
+        "&" +
+        this.state.latLongRange +
+        "&" +
+        this.state.feature +
+        "&" +
+        this.state.activity +
+        "&" +
+        this.state.difficulty,
       {
         method: "GET", // The type of HTTP request.
       }
@@ -142,8 +232,7 @@ export default class TrailRecs extends React.Component {
 
         <div className="container recommendations-container">
           <div className="jumbotron park">
-
-            <div className="h4">Trail Recommendations</div>
+            <div className="h4">Trail Recommender</div>
             <br></br>
 
             <div className="input-container">
@@ -176,18 +265,7 @@ export default class TrailRecs extends React.Component {
                 id="latLongRange"
                 className="range-input"
               />
-              <button
-                id="submitCityForTrails"
-                className="submit-btn"
-                onClick={this.submitCityForTrails}
-              >
-                Submit
-              </button>
-            </div>
 
-            <div className="h6">Or</div>
-
-            <div className="input-container">
               <input
                 list="features"
                 placeholder="--Select feature--"
@@ -196,13 +274,7 @@ export default class TrailRecs extends React.Component {
                 id="feature"
                 className="feature-input"
               />
-              <datalist id="features">
-                <option value="beach"></option>
-                <option value="forest"></option>
-                <option value="river"></option>
-                <option value="waterfall"></option>
-                <option value="views"></option>
-              </datalist>
+              <datalist id="features">{this.state.features}</datalist>
 
               <input
                 list="activities"
@@ -212,17 +284,24 @@ export default class TrailRecs extends React.Component {
                 id="activity"
                 className="activity-input"
               />
-              <datalist id="activities">
-                <option value="birding"></option>
-                <option value="camping"></option>
-                <option value="hiking"></option>
-                <option value="nature-trips"></option>
-                <option value="trail-running"></option>
-              </datalist>
+              <datalist id="activities">{this.state.activities}</datalist>
+
+              <input
+                type="number"
+                step="1"
+                min="1"
+                max="7"
+                placeholder="Enter difficulty"
+                value={this.state.difficulty}
+                onChange={this.handleDifficultyChange}
+                id="difficulty"
+                className="difficulty-input"
+              />
+
               <button
-                id="submitTrailInfo"
+                id="submitTrailMetrics"
                 className="submit-btn"
-                onClick={this.submitTrailInfo}
+                onClick={this.submitTrailMetrics}
               >
                 Submit
               </button>
@@ -247,8 +326,6 @@ export default class TrailRecs extends React.Component {
               </div>
             </div>
           </div>
-
-
         </div>
       </div>
     );
