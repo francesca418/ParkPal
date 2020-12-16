@@ -5,18 +5,45 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import PageNavbar from './PageNavbar';
 
+import { LatLng } from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
 export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      parkLatLng: [],
+      parkNames: [],
+      parkAcres: []
+    }
   }
 
   componentDidMount() {
+    fetch(
+      "http://localhost:8081/parks",
+      {
+        method: "GET", // The type of HTTP request.
+      }
+    )
+      .then((res) => res.json()) // Convert the response data to a JSON.
+      .then((parkList) => {
+        if (!parkList) return;
+        this.setState({ parkLatLng: parkList.map(v => new LatLng(v.LAT, v.LNG)) });
+        this.setState({ parkNames: parkList.map(v => v.PARK_NAME) });
+        this.setState({ parkAcres: parkList.map(v => v.ACRES) });
+      })
 
+      .catch((err) => console.log(err)); // Print the error if there is one.
   }
 
   render() {    
+    const markers = this.state.parkLatLng.map((v, i) => 
+      <Marker key={i} position={v}>
+        <Popup>{this.state.parkNames[i]} <br></br> Acres: {this.state.parkAcres[i]}</Popup>
+      </Marker>
+    );
+
     return (
       <div className="Dashboard">
         <PageNavbar active="dashboard" />
@@ -29,11 +56,7 @@ export default class Dashboard extends React.Component {
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={[37.3, -113.05]}>
-              <Popup>
-                Zion National Park
-              </Popup>
-            </Marker>
+            {markers}
           </MapContainer>
         </div>
       </div>
