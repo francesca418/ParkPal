@@ -138,7 +138,7 @@ export default class ParkRecs extends React.Component {
       "http://localhost:8081/parks/" +
       this.state.category.split("/").join("%2F") +
       "&" +
-      this.state.status;
+      this.state.status.split(" ").join("%20");
     console.log(paramToken);
     fetch(
       paramToken,
@@ -227,10 +227,10 @@ export default class ParkRecs extends React.Component {
               />
               <datalist id="statuses">
                 <option value="Common"></option>
-                <option value="In recovery"></option>
+                <option value="In Recovery"></option>
                 <option value="Endangered"></option>
-                <option value="Species of concern"></option>
-                <option value="Not endangered"></option>
+                <option value="Species of Concern"></option>
+                <option value="Not Endangered"></option>
               </datalist>
               <Button variant="info" className="submit-btn" onClick={this.submitWildlife}>Submit</Button>
             </div>
@@ -239,9 +239,6 @@ export default class ParkRecs extends React.Component {
           <div className="jumbotron">
             <div className="header-container">
               <div className="headers">
-                <div className="header">
-                  <strong>Code</strong>
-                </div>
                 <div className="header">
                   <strong>Name</strong>
                 </div>
@@ -256,6 +253,9 @@ export default class ParkRecs extends React.Component {
                 </div>
                 <div className="header">
                   <strong>Longitude</strong>
+                </div>
+                <div className="header">
+                  <strong>Number of Species</strong>
                 </div>
               </div>
               <div className="results-container" id="results">

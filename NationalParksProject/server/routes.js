@@ -127,6 +127,7 @@ function getAllParks(req, res) {
   var query = `
     SELECT *
     FROM Parks
+    ORDER BY park_name
   `;
   connection.execute(query, function (err, rows, fields) {
     if (err) console.log("Query error: ", err);
@@ -143,6 +144,7 @@ function getAllCategories(req, res) {
   var query = `
     SELECT DISTINCT category
     FROM Species
+    ORDER BY category
   `;
   connection.execute(query, function (err, rows, fields) {
     if (err) console.log("Query error: ", err);
@@ -159,6 +161,7 @@ function getAllFeatures(req, res) {
   var query = `
     SELECT DISTINCT feature
     FROM trail_features
+    ORDER BY feature
   `;
   connection.execute(query, function (err, rows, fields) {
     if (err) console.log("Query error: ", err);
@@ -175,6 +178,7 @@ function getAllActivities(req, res) {
   var query = `
     SELECT DISTINCT activity
     FROM trails_activities
+    ORDER BY activity
   `;
   connection.execute(query, function (err, rows, fields) {
     if (err) console.log("Query error: ", err);
@@ -210,7 +214,7 @@ function getParksInRange(req, res) {
     ) * ${R} AS distance
     FROM BoundedParks p, Location l
   )
-  SELECT p.park_code, p.park_name, p.state, p.acres, p.lat, p.lng
+  SELECT p.park_name, p.state, TRUNC(p.acres, 0) "ACRES", TRUNC(p.lat, 2) "LAT", TRUNC(p.lng, 2) "LNG"
   FROM ParksWithDistance pd
   JOIN Parks p ON
   pd.park_code = p.park_code
@@ -251,7 +255,7 @@ function getParksWithWildlife(req, res) {
 function getParksWithCategories(req, res) {
   var inputCategory = req.params.category.split('%2F').join('/');
   console.log(inputCategory);
-  var inputStatus = req.params.status;
+  var inputStatus = req.params.status.split("%20").join(" ");
   var query = `
   WITH Counts AS (
   SELECT park_name, COUNT(*) AS num_species 
@@ -262,7 +266,7 @@ function getParksWithCategories(req, res) {
   ORDER BY num_species DESC
   )
 
-  SELECT p.park_code, p.park_name, p.state, p.acres, p.lat, p.lng, c.num_species
+  SELECT p.park_name, p.state, TRUNC(p.acres) "ACRES", TRUNC(p.lat, 2) "LAT", TRUNC(p.lng, 2) "LNG", c.num_species
   FROM Parks p
   JOIN Counts c
   ON p.park_name = c.park_name
@@ -332,7 +336,7 @@ function getTrailsMetrics(req, res) {
      0.5 * 1000 * (1 / t.distance) * (0.5 * t.difficulty_rating)) AS score 
     FROM ActivityFilter t
   )
-  SELECT t.name, park_name 
+  SELECT t.name, park_name, t.popularity 
   FROM TrailScores t
   ORDER BY score
   `;
@@ -371,7 +375,7 @@ function getTrailsLevels(req, res) {
     FROM ScoreTable s
   )
 
-  SELECT s.name, s.park_name, s.popularity, s.length, s.elevation_gain, s.difficulty_rating, s.score
+  SELECT s.name, s.park_name, TRUNC(s.popularity, 2) "POPULARITY", TRUNC(s.length, 2) "LENGTH", TRUNC(s.elevation_gain, 2) "ELEVATION_GAIN", TRUNC(s.score, 2) "SCORE"
   FROM LevelTable s 
   WHERE s.trail_level = '${inputLevel}'
   ORDER BY s.score DESC

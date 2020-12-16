@@ -55,9 +55,10 @@ export default class PageNavbar extends React.Component {
 			        <Nav className="navbar-nav">
 			        	{this.state.navDivs}
 			        </Nav>
-					<Button variant="danger" className="logout-btn" onClick={this.logout}>Logout</Button>
+					
 			      </div>
 				  <Navbar.Text className="signed-in">Signed in as: {this.state.username}</Navbar.Text>
+				  <Button variant="outline-danger" className="logout-btn" onClick={this.logout}>Logout</Button>
 			    </Navbar>
 			</div>
   	);
