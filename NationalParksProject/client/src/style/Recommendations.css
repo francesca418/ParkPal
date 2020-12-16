@@ -16,6 +16,6 @@
 .headers .header, 
 .park_code, .park_name, .state, .acres, .latitude, .longitude,
 .trail_name, .popularity, .length, .elevation, .score,
-.scientific_name, .common_names  {
+.scientific_name, .common_names, .order_name, .family {
   flex: 1 0 16%;
 }

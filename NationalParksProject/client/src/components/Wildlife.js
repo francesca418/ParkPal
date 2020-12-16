@@ -111,7 +111,7 @@ export default class Wildlife extends React.Component {
         if (!wildlifeList) return;
         // Map each attribute of a ParkRow in this.state.recParks to an HTML element
         let wildlifeDivs = wildlifeList.map((wildlife, i) => (
-          <WildlifeTree wildlife={wildlife} />
+          <WildlifeRow wildlife={wildlife} />
         ));
 
         // Set the state of the park list to the value returned by the HTTP response from the server.
@@ -198,6 +198,12 @@ export default class Wildlife extends React.Component {
                 </div>
                 <div className="header">
                   <strong>Scientific name</strong>
+                </div>
+                <div className="header">
+                  <strong>Order</strong>
+                </div>
+                <div className="header">
+                  <strong>Family</strong>
                 </div>
                 <div className="header">
                   <strong>Common name(s)</strong>
