@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
 
 import PageNavbar from './PageNavbar';
 
@@ -64,7 +65,7 @@ export default class Signup extends React.Component {
       <div className="Signup">
         <PageNavbar active="signup" />
         <br></br>
-        <div className="signup-container">
+        <div className="container signup-container">
             <div className="jumbotron park">
 
                 <div className="h4">User signup</div>
@@ -94,12 +95,7 @@ export default class Signup extends React.Component {
                     name="username"
                     className="password-input"
                 />
-                <button
-                id="submitFormBtn"
-                className="submitForm-btn"
-                onClick={this.submitForm} >
-                    Submit
-                </button>
+                <Button variant="info" id="submitFormBtn" className="submitForm-btn" onClick={this.submitForm}>Submit</Button>
 
                 <div className="signup-wrapper">
                   <a href="/login" className="signup-redirect">

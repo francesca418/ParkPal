@@ -2,7 +2,9 @@ import React from 'react';
 import PageNavbar from './PageNavbar';
 import TrailRow from './TrailRow';
 import '../style/Recommendations.css';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
 
 export default class TrailRecs extends React.Component {
   constructor(props) {
@@ -369,13 +371,7 @@ export default class TrailRecs extends React.Component {
                 className="difficulty-input"
               />
 
-              <button
-                id="submitTrailMetrics"
-                className="submit-btn"
-                onClick={this.submitTrailMetrics}
-              >
-                Submit
-              </button>
+              <Button variant="info" id="submitTrailMetrics" className="submit-btn" onClick={this.submitTrailMetrics}>Submit</Button>
             </div>
           </div>
 
@@ -407,13 +403,7 @@ export default class TrailRecs extends React.Component {
                 <option value="Intermediate"></option>
                 <option value="Advanced"></option>
               </datalist>
-              <button
-                id="submitTrailLevel"
-                className="submit-btn"
-                onClick={this.submitTrailLevel}
-              >
-                Submit
-              </button>
+              <Button variant="info" id="submitTrailLevel" className="submit-btn" onClick={this.submitTrailLevel}>Submit</Button>
             </div>
           </div>
 

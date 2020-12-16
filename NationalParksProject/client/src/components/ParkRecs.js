@@ -2,7 +2,9 @@ import React from 'react';
 import PageNavbar from './PageNavbar';
 import ParkRow from './ParkRow';
 import '../style/Recommendations.css';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
 
 export default class ParkRecs extends React.Component {
   constructor(props) {
@@ -199,13 +201,7 @@ export default class ParkRecs extends React.Component {
                 id="latLongRange"
                 className="range-input"
               />
-              <button
-                id="submitCityBtn"
-                className="submit-btn"
-                onClick={this.submitCity}
-              >
-                Submit
-              </button>
+              <Button variant="info" className="submit-btn" onClick={this.submitCity}>Submit</Button>
             </div>
 
             <div className="h6">Or</div>
@@ -236,13 +232,7 @@ export default class ParkRecs extends React.Component {
                 <option value="Species of concern"></option>
                 <option value="Not endangered"></option>
               </datalist>
-              <button
-                id="submitWildlifeBtn"
-                className="wildlife-btn"
-                onClick={this.submitWildlife}
-              >
-                Submit
-              </button>
+              <Button variant="info" className="wildlife-btn" onClick={this.submitWildlife}>Submit</Button>
             </div>
           </div>
 

@@ -2,7 +2,9 @@ import React from 'react';
 import PageNavbar from './PageNavbar';
 import WildlifeRow from './WildlifeRow';
 import WildlifeTree from './WildlifeTree';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
 
 export default class Wildlife extends React.Component {
   constructor(props) {
@@ -142,13 +144,7 @@ export default class Wildlife extends React.Component {
                 className="wildlife-input"
               />
 
-              <button
-                id="submitWildlifeBtn"
-                className="submit-btn"
-                onClick={this.submitWildlife}
-              >
-                Submit
-              </button>
+              <Button variant="info" id="submitWildlifeBtn" className="submit-btn" onClick={this.submitWildlife}>Submit</Button>
             </div>
 
             <br></br>
@@ -188,14 +184,7 @@ export default class Wildlife extends React.Component {
                 <option value="family"></option>
               </datalist>
 
-
-              <button
-                id="submitWildlifeBtn"
-                className="submit-btn"
-                onClick={this.submitTree}
-              >
-                Submit
-              </button>
+              <Button variant="info" id="submitWildlifeBtn" className="submit-btn" onClick={this.submitTree}>Submit</Button>
             </div>
 
 
