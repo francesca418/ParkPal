@@ -8,3 +8,30 @@
 4. npm install in both client and server directories
 5. First npm start the server, then npm start the client.
 6. Explore away!
+
+## List of Dependencies
+
+### ----- server -----
+
+aws-sdk
+bcrypt
+bcryptjs
+body-parser
+cookie-session
+cors
+express
+mongoose
+nodemon
+oracledb
+react-redirect
+
+### ----- client -----
+
+bootstrap
+leaflet
+react
+react-bootstrap
+react-dom
+react-leaflet
+react-router-dom
+react-scripts
